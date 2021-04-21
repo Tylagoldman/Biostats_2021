@@ -13,7 +13,7 @@ library(dslabs)
 
 snakes <- read_csv("data/snakes.csv") 
 snakes$day = as.factor(snakes$day) #changing the day column data to a factor as anova is applied to independent variables, not the current continous data  
-
+                                  #generate factorial data 
 snakes.summary <- snakes %>% 
   group_by(day, snake) %>% #summary does not work when data is grouped 
   summarise(mean_openings = mean(openings),
@@ -36,7 +36,7 @@ snakes.summary2 <- summarySE(data = snakes, measurevar = "openings", groupvars =
 ggplot(data = snakes, aes(x = day, y = openings)) +
   geom_segment(data = snakes.summary2, aes(x = day, xend = day, y = openings - ci, yend = openings + ci, colour = day),
                size = 2.0, linetype = "solid", show.legend = F) + #geom segment allows you to edit how information is displayed per segment of the boxplot
-  geom_boxplot(aes(fill = day), alpha = 0.6, show.legend = F) + 
+  geom_boxplot(aes(fill = day), alpha = 0.6, show.legend = F) + #coding for a boxplot-type of graph
   geom_jitter(width = 0.05) #spreads out compacted data so that boxplot is more pleasantly displayed 
 
 snakes.aov <- aov(openings ~ day + snake, data = snakes) # ~ shows that you analysing the varience of the openings using day and snake 
@@ -66,4 +66,16 @@ ggplot(data = snake_graph, aes(x = snake, y = openings, fill = snake)) +
   geom_col() +
   theme_bw() +
   theme(legend.position = "none") +
-  labs(x = "Snake", y = "Openings", title = "Column graph showing the number of openings for each snake")
+  labs(x = expression(italic("Snake")), y = expression(italic("Openings")), title = expression(italic("Column graph showing the number of openings for each snake")))
+
+snakes_bouji <- snakes %>%
+  group_by(day, snake)
+
+ggplot(data = snakes_bouji, aes(x = day, y = openings, fill = snake)) +
+  geom_col(position = "dodge", col = "black") +
+  scale_fill_brewer(palette = "Greens") +
+  labs(x = "Day", y = "Openings", fill = "Snake",
+       title = "Graph showing the openings per day of different snakes in study") +
+  theme_bw() +
+  theme(plot.title = element_text(size = 20, face = "bold"))
+
