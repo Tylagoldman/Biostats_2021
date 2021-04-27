@@ -22,6 +22,7 @@ library(dslabs)
 library(reshape2)
 library(plotly)
 library(reshape)
+library(rcompanion)
 
 Input <- ("
 Student  Sex     Teacher  Steps  Rating
@@ -85,7 +86,7 @@ ggplot(data = CI_1, aes(x = Sex, y = Mean, fill = Sex)) + #mean used as this gra
   labs(x = "Sex", y = "Steps", subtitle = "Confidence intervals of data displayed", caption = "Graph generated on 22/04/2021") +
   theme(plot.caption = element_text(hjust = 0)) + #caption was repositioned 
   ggtitle(~underline("Figure 1: Bar graph showing steps per sex" )) + #underline allows for a heading that follows the rules of biological graphs 
-  theme(plot.title = element_text(face = "bold", colour = "red"),
+  theme(plot.title = element_text(face = "bold", colour = "red"), #changed colour of title and subtitle 
         plot.subtitle = element_text(color = "blue")) +
   theme(legend.position = "remove") #removed legend for this code as column names are clearly displayed 
   
